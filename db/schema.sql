@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS account (
     id BIGSERIAL PRIMARY KEY,
     account_type_id INTEGER NOT NULL,
     username VARCHAR(50) NOT NULL,
-    description VARCHAR(255) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     created_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -29,3 +28,16 @@ CREATE TABLE IF NOT EXISTS conflict (
     events INTEGER NOT NULL,
     score INTEGER NOT NULL
 );
+
+INSERT INTO account_type (
+    type
+) VALUES
+    ('admin'),
+    ('reader');
+
+INSERT INTO account (
+    username,
+    password_hash,
+    account_type_id
+) VALUES
+    ('admin', '$2a$10$SyihHlHtNHxrGSkJSXSgr.3A71YqeYpPiD7J4.0lDxo4uKTa1Yc62', 1);
