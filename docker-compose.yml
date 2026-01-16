@@ -1,0 +1,16 @@
+services:
+  db:
+    container_name: dev-conflict-db
+    image: postgres:18.0-alpine3.22
+    env_file: .env
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=conflict
+      - TZ=${TIMEZONE}
+    ports:
+      - 127.0.0.1:5432:5432
+    volumes:
+      - ./db/data:/var/lib/postgres/data
+
