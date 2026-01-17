@@ -21,14 +21,14 @@ async def get_average_risk_score(country):
 
 async def delete_records(admin1, country):
     if country is not None and admin1 is not None:
-        conflicts = repository.delete_conflicts_by_admin1_and_country(
+        repository.delete_conflicts_by_admin1_and_country(
             admin1, country)
-        return conflicts
+        return
 
     if country is None:
-        conflicts = repository.delete_conflicts_by_admin1(admin1)
-        return conflicts
+        repository.delete_conflicts_by_admin1(admin1)
+        return
 
     if admin1 is None:
-        conflicts = repository.delete_conflicts_by_country(country)
-        return conflicts
+        repository.delete_conflicts_by_country(country)
+        return

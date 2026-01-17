@@ -63,6 +63,7 @@ def delete_conflicts_by_admin1(admin1: str):
         )
         db.exec(stmt)
         db.commit()
+        return
 
 
 def delete_conflicts_by_country(country: str):
@@ -72,6 +73,7 @@ def delete_conflicts_by_country(country: str):
         ).where(models.Conflict.country == country)
         db.exec(stmt)
         db.commit()
+        return
 
 
 def delete_conflicts_by_admin1_and_country(admin1: str, country: str):
@@ -85,6 +87,7 @@ def delete_conflicts_by_admin1_and_country(admin1: str, country: str):
             ))
         db.exec(stmt)
         db.commit()
+        return
 
 
 async def get_avg_by_country(country: str):

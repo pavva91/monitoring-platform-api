@@ -16,7 +16,11 @@ conflict_router = APIRouter()
 
 
 @conflict_router.get("/conflictdata", response_model=list[schemas.ConflictResponse])
-async def list_all(page: int = Query(default=1, ge=1), size: int = Query(default=20, le=100), countries: List[str] = Query(default=[])):
+async def list_all(
+        page: int = Query(default=1, ge=1),
+        size: int = Query(default=20, ge=10, le=100),
+        countries: List[str] = Query(default=[]),
+        ):
     return await service.list_conflicts(page, size, countries)
 
 
@@ -34,16 +38,23 @@ async def get_average_risk_score(country: str):
     return res
 
 
-@conflict_router.delete("/conflictdata", response_model=list[schemas.ConflictResponse])
+@conflict_router.delete("/conflictdata", response_model=None)
 async def bulk_delete_conflicts(
         admin1: str = Query(default=None),
         country: str = Query(default=None),
         _: am.Account = Depends(get_current_user_authorization)
 ):
+    """
+    with admin1 will remove all the records with that value
+    with country will remove all the records with that value
+    with admin1 and country will remove the record, if present, with these 2 values.
+    The delete is case-sensitive.
+    """
     if admin1 is None and country is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Insert at least one between admin1 or country",
         )
 
-    return await service.delete_records(admin1, country)
+    await service.delete_records(admin1, country)
+    return

@@ -15,7 +15,14 @@ From root:
 Spin-up postgres:
 
 ```bash
+cd docker
 docker compose up
+```
+
+go back to root
+
+```bash
+cd ..
 ```
 
 Init DB-Schema:
@@ -36,6 +43,13 @@ Enter 'conflict' DB:
 PGPASSWORD=your-password psql -h 127.0.0.1 -p 5432 -U your-user conflict
 ```
 
+check:
+
+```sql
+select * from conflict;
+```
+
+### Run the server
 
 ```bash
 fastapi dev src/main.py
@@ -47,6 +61,7 @@ To run without hot-reload:
 ```bash
 fastapi run src/main.py
 ```
+
 You will see the server on:
     - [http://localhost:8000](http://localhost:8000)
 
@@ -61,12 +76,14 @@ You will see the Alternative API docs on:
 On dev I usually setup that the db is dropped when running:
 
 ```bash
+cd docker
 docker compose down
 ```
 
 Then:
 
 ```bash
+cd docker
 docker compose up
 ```
 
@@ -77,8 +94,14 @@ then re-init the schema and re-import the .csv
 
 
 ```sql
+select avg(score) from conflict where country='Algeria';
+```
+
+
+```sql
 drop database conflict;
 ```
+
 
 ```sql
 select * from conflict;
