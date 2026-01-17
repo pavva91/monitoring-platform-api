@@ -8,6 +8,12 @@
 
 ## Run
 
+### Install requirements.txt
+
+```bash
+pip install -r requirements.txt
+```
+
 ### Init DB
 
 From root:
