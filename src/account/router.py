@@ -12,7 +12,6 @@ from . import service
 from . import schema
 from db import get_session
 from auth import schemas
-from account import models as am
 
 account_router = APIRouter()
 
@@ -27,12 +26,3 @@ async def register(creds: schema.AccountCredentialsRequest, session: SessionDep)
 @account_router.post("/login", response_model=None)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> schemas.Token:
     return await service.authenticate_user(form_data.username, form_data.password)
-
-
-@account_router.get("/users", response_model=list[schema.AccountResponse])
-async def list_all_users(
-    page: int = Query(default=1, ge=1),
-    size: Annotated[int, Query(le=100)] = 10,
-    _: am.Account = Depends(get_current_user_authorization)
-):
-    return service.list_users(page, size)

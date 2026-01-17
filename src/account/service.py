@@ -37,13 +37,3 @@ async def authenticate_user(username: str, password: str):
 
     jwt = create_jwt_token(account.username, account_type)
     return jwt
-
-
-def list_users(page, size):
-    offset = (page - 1) * size
-    res = repository.list_accounts(offset, size)
-    while len(res) == 0 or page > 1:
-        page = page - 1
-        offset = (page - 1) * size
-        res = repository.list_accounts(offset, size)
-    return res
