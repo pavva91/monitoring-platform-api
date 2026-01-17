@@ -9,7 +9,7 @@ from . import models
 from . import repository
 
 
-async def create_user(session: Session, creds: schema.Credentials):
+async def create_user(session: Session, creds: schema.AccountCredentialsRequest):
     acc = models.AccountCreate(
         username=creds.username, password_hash=utils.hash_password(creds.password))
     db_account = repository.create_account(session, acc)

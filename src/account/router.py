@@ -19,8 +19,8 @@ account_router = APIRouter()
 SessionDep = Annotated[Session, Depends(get_session)]
 
 
-@account_router.post("/register", response_model=schema.AccountPublic)
-async def register(creds: schema.Credentials, session: SessionDep):
+@account_router.post("/register", response_model=schema.AccountResponse)
+async def register(creds: schema.AccountCredentialsRequest, session: SessionDep):
     return await service.create_user(session, creds)
 
 
@@ -29,7 +29,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> schemas.Tok
     return await service.authenticate_user(form_data.username, form_data.password)
 
 
-@account_router.get("/users", response_model=list[schema.AccountPublic])
+@account_router.get("/users", response_model=list[schema.AccountResponse])
 async def list_all_users(
     page: int = Query(default=1, ge=1),
     size: Annotated[int, Query(le=100)] = 10,

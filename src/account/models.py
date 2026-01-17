@@ -1,5 +1,4 @@
-from pydantic import BaseModel
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+from sqlmodel import Field, SQLModel
 
 
 class AccountBase(SQLModel):
@@ -12,13 +11,5 @@ class Account(AccountBase, table=True):
     password_hash: str = Field(index=True)
 
 
-class AccountPublic(AccountBase):
-    id: int
-
-
 class AccountCreate(AccountBase):
-    password_hash: str = Field(index=True)
-
-
-class AccountUpdate(AccountBase):
     password_hash: str = Field(index=True)

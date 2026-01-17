@@ -31,7 +31,7 @@ api_router = APIRouter(
 )
 
 
-@api_router.get("/ping", include_in_schema=True)
+@api_router.get("/ping", include_in_schema=False)
 def healthcheck():
     """Simple healthcheck endpoint."""
     return {"status": "pong"}

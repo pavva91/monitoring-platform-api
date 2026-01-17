@@ -1,9 +1,9 @@
 from . import models
 
 
-class Credentials(models.AccountBase):
+class AccountCredentialsRequest(models.AccountBase):
     password: str
 
 
-class AccountPublic(models.AccountBase):
+class AccountResponse(models.AccountBase):
     id: int
