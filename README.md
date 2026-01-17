@@ -1,6 +1,7 @@
 # API for conflict monitoring platform
 
 ## Requirements
+
 - Authentication with JWT
 - Authorization (casbin)
     - https://dev.to/teresafds/authorization-on-fastapi-with-casbin-41og
@@ -37,14 +38,14 @@ PGPASSWORD=your-password psql -h 127.0.0.1 -p 5432 -U your-user conflict
 
 
 ```bash
-fastapi dev main.py
+fastapi dev src/main.py
 ```
 NOTE: The 'dev' mode includes hot-reload
 
 To run without hot-reload:
 
 ```bash
-fastapi run main.py
+fastapi run src/main.py
 ```
 You will see the server on:
     - [http://localhost:8000](http://localhost:8000)

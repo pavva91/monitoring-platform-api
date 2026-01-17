@@ -1,0 +1,2 @@
+p, admin, .*/conflictdata, DELETE
+p, reader, .*/conflictdata/{admin1}/userfeedback, POST
