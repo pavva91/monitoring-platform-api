@@ -1,7 +1,7 @@
 from typing import List
 from . import models
 from db import DatabaseSession
-from sqlmodel import select, func, and_
+from sqlmodel import select, func, and_, delete
 
 
 def get_country_details(db_session, country: str):
@@ -9,7 +9,7 @@ def get_country_details(db_session, country: str):
         models.Conflict
     ).where(
         func.lower(models.Conflict.country) == func.lower(country))
-    return db_session.exec(stmt)
+    return db_session.exec(stmt).all()
 
 
 def list_conflicts(skip: int, size: int):
@@ -52,3 +52,42 @@ def list_conflicts_by_admin1_and_country(admin1: str, country: str):
                 func.lower(models.Conflict.country) == func.lower(country)
             ))
         return db.exec(stmt).all()
+
+
+def delete_conflicts_by_admin1(admin1: str):
+    with DatabaseSession() as db:
+        stmt = delete(
+            models.Conflict
+        ).where(
+            models.Conflict.admin1 == admin1
+        )
+        db.exec(stmt)
+        db.commit()
+
+
+def delete_conflicts_by_country(country: str):
+    with DatabaseSession() as db:
+        stmt = delete(
+            models.Conflict
+        ).where(models.Conflict.country == country)
+        db.exec(stmt)
+        db.commit()
+
+
+def delete_conflicts_by_admin1_and_country(admin1: str, country: str):
+    with DatabaseSession() as db:
+        stmt = delete(
+            models.Conflict
+        ).where(
+            and_(
+                models.Conflict.admin1 == admin1,
+                models.Conflict.country == country
+            ))
+        db.exec(stmt)
+        db.commit()
+
+
+async def get_avg_by_country(country: str):
+    with DatabaseSession() as db:
+        stmt = func.avg(models.Conflict.score).label('average')
+        return db.query(stmt).filter(func.lower(models.Conflict.country) == func.lower(country)).all()

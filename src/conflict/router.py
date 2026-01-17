@@ -1,11 +1,13 @@
 from typing import Annotated, List
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, status, HTTPException
 from sqlalchemy.orm import Session
 
 from conflict import service
 from db import get_session
 from . import schemas
 from sqlmodel import Session
+from auth.authorization import get_current_user_authorization
+from account import models as am
 
 
 SessionDep = Annotated[Session, Depends(get_session)]
@@ -23,35 +25,25 @@ async def get_country_details(country, session: SessionDep):
     return await service.get_country_details(country, session)
 
 
-# # NOTE: 'anonymous' user can do
-# @conflict_router.get("/conflictdata/{country}/riskscore", response_model=None)
-# async def get_average_risk_score(country: str, q: str | None = None, short: bool = False):
-#     item = {"item_id": country }
-#     if q:
-#         item.update({"q": q})
-#     if not short:
-#         item.update(
-#             {"description": "This is an amazing item that has a long description"}
-#         )
-#     return item
-
-# # NOTE: also 'normal' user can do (ACL)
-# @conflict_router.post("/conflictdata/{admin1}/userfeedback", response_model=None)
-# async def save_user_feedback(admin1: str, item: Conflict):
-#     item_dict = item.model_dump()
-#     if item.tax is not None:
-#         price_with_tax = item.price + item.tax
-#         # item_dict['price_with_tax'] = price_with_tax
-#         item_dict.update({'price_with_tax': price_with_tax})
-#     return item_dict
+@conflict_router.get("/conflictdata/{country}/riskscore", response_model=schemas.AverageConflictScoreResponse)
+async def get_average_risk_score(country: str):
+    """
+    select avg(score) from conflict where country=%s;
+    """
+    res = await service.get_average_risk_score(country)
+    return res
 
 
-# # NOTE: only admin can do (ACL)
-# @conflict_router.delete("/conflictdata", response_model=None)
-# async def delete_user_feedback(item: Conflict):
-#     item_dict = item.model_dump()
-#     if item.tax is not None:
-#         price_with_tax = item.price + item.tax
-#         # item_dict['price_with_tax'] = price_with_tax
-#         item_dict.update({'price_with_tax': price_with_tax})
-#     return item_dict
+@conflict_router.delete("/conflictdata", response_model=list[schemas.ConflictResponse])
+async def bulk_delete_conflicts(
+        admin1: str = Query(default=None),
+        country: str = Query(default=None),
+        _: am.Account = Depends(get_current_user_authorization)
+):
+    if admin1 is None and country is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Insert at least one between admin1 or country",
+        )
+
+    return await service.delete_records(admin1, country)
