@@ -5,7 +5,7 @@ from api import api_router
 
 app = FastAPI(
     title="Monitoring Platform API",
-    description="The API supports user authentication with RBAC authentication, allows you to view information about conflicts in different countries, and allow the user to post feedback and the admin to delete the records.",
+    description="The API supports user authentication with RBAC authorization, allows you to view information about conflicts in different countries, and allow the user to post feedback and the admin to delete the records.",
     root_path="/api/v1",
 )
 
