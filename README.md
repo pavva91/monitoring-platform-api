@@ -4,7 +4,6 @@
 
 - Authentication with JWT
 - Authorization (casbin)
-    - https://dev.to/teresafds/authorization-on-fastapi-with-casbin-41og
 
 ## Run
 
