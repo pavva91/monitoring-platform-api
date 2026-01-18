@@ -126,53 +126,102 @@ SELECT * FROM conflict ORDER BY events DESC LIMIT 10;
 The average risk score of the country with the region of most events:
 
 ```sql
-SELECT AVG(score) FROM conflict WHERE country IN (SELECT country FROM conflict ORDER BY events DESC LIMIT 1);
+SELECT AVG(score)
+FROM conflict
+WHERE country IN (
+    SELECT country
+    FROM conflict
+    ORDER BY events DESC LIMIT 1
+);
 ```
 
 All countries with their average risk, ordered by it
 
 ```sql
-SELECT country, AVG(score) FROM conflict GROUP BY country ORDER BY AVG(score) DESC;
+SELECT country, AVG(score)
+FROM conflict
+GROUP BY country
+ORDER BY AVG(score) DESC;
 ```
 
 Top 20 countries ordered by average risk;
 
 ```sql
-SELECT country, AVG(score) FROM conflict GROUP BY country ORDER BY AVG(score) DESC;
+SELECT country, AVG(score)
+FROM conflict
+GROUP BY country
+ORDER BY AVG(score) DESC;
 ```
 
 Sum of total events in a country:
 
 ```sql
-SELECT SUM(events) FROM conflict WHERE country='Belgium';
+SELECT SUM(events)
+FROM conflict
+WHERE country='Belgium';
 ```
 
 Top 20 countries by total number of events in the country:
 
 ```sql
-SELECT country, SUM(events) AS total_events FROM conflict GROUP BY country ORDER BY SUM(events) DESC LIMIT 20;
+SELECT country, SUM(events) AS total_events
+FROM conflict
+GROUP BY country
+ORDER BY SUM(events) DESC
+LIMIT 20;
 ```
 
 Get average events per person for the country
 
 ```sql
-SELECT SUM(events)::NUMERIC / SUM(population)::NUMERIC AS division FROM conflict WHERE country = 'Italy';
+SELECT SUM(events)::NUMERIC / SUM(population)::NUMERIC AS division
+FROM conflict
+WHERE country = 'Italy';
 ```
 
 Get list of countries ordered by the number of events per person, in the country:
 
 ```sql
-SELECT country, SUM(events)::NUMERIC / SUM(population)::NUMERIC AS events_per_person FROM conflict GROUP BY country ORDER BY division DESC;
+SELECT
+    country,
+    SUM(events)::NUMERIC / SUM(population)::NUMERIC AS events_per_person
+FROM conflict
+GROUP BY country
+ORDER BY division DESC;
 ```
-**_NOTE_**: The result is not clean, because of some missing population data, I think
+**_NOTE_**: The result is not clean yet, probably because of some missing population data, I think.
 
-**_SOLUTION_**: To clean the data that we have, I take advantage of the CTE (Common Table Expression) to save the result of the query into a table, making it more readable and reusable, for more complex queries. For now I just remove the average data that is null, to get a more realistic ordering.
+**_SOLUTION_**: To clean the data that we have, I take advantage of the CTE (Common Table Expression) to save the result of the query into a table, making the queries also more readable and - most notably - reusable, for more complex queries. For now I just remove the average data that is null, to get a more realistic ordering.
 
 ```sql
 WITH group_events_population_ratio AS (
-SELECT country, SUM(events)::NUMERIC / SUM(population)::NUMERIC AS events_per_person FROM conflict GROUP BY country ORDER BY events_per_person DESC
+    SELECT
+            country,
+            SUM(events)::NUMERIC / SUM(population)::NUMERIC AS events_per_person
+    FROM conflict
+    GROUP BY country
+    ORDER BY events_per_person DESC
 )
-SELECT * FROM group_events_population_ratio WHERE events_per_person IS NOT NULL;
+SELECT *
+FROM group_events_population_ratio
+WHERE events_per_person IS NOT NULL;
+```
+
+Inspect the query plan for a query, for example, analyze the last one, with the CTE:
+
+```sql
+EXPLAIN
+WITH group_events_population_ratio AS (
+    SELECT
+        country,
+        SUM(events)::NUMERIC / SUM(population)::NUMERIC AS events_per_person
+    FROM conflict
+    GROUP BY country
+    ORDER BY events_per_person DESC
+)
+SELECT *
+FROM group_events_population_ratio
+WHERE events_per_person IS NOT NULL;
 ```
 
 ```sql
