@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query, Depends, status
 
 from . import schemas
-from . import services
+from . import service
 from account import models as am
 from auth.authorization import get_current_user_authorization
 
@@ -16,7 +16,7 @@ async def send_feedback(
     country: str = Query(default=None),
     curr_user: am.Account = Depends(get_current_user_authorization)
 ):
-    res = await services.save_feedback(admin1, feedback, country, curr_user)
+    res = await service.save_feedback(admin1, feedback, country, curr_user)
     if res is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
