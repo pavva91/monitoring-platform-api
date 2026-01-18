@@ -1,13 +1,13 @@
-1. create db schema
-2. import csv into db
-3. POST /register
-4. POST /login
-    - JWT-authentication
-    - JWT-invalidation (lower priority)
-5. POST /logout (lower priority)
-6. GET /conflictdata
-7. GET /conflictdata/:country
-8. GET /conflictdata/:country/riskscore
-9. POST /conflictdata/:admin1/userfeedback
-10. DELETE /conflictdata
-11. Implement authorization (casbin)
+1. create db schema (DONE)
+2. import csv into db (DONE)
+3. POST /register (DONE)
+4. POST /login (DONE)
+    - JWT-authentication (DONE)
+    - JWT-invalidation (lower priority) (DONE)
+5. POST /logout (lower priority) (DONE)
+6. GET /conflictdata (DONE)
+7. GET /conflictdata/:country (DONE)
+8. GET /conflictdata/:country/riskscore (DONE)
+9. POST /conflictdata/:admin1/userfeedback (DONE)
+10. DELETE /conflictdata (DONE)
+11. Implement authorization (casbin) (DONE)
