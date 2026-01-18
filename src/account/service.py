@@ -1,3 +1,4 @@
+from datetime import datetime, timezone, timedelta
 from sqlmodel import Session
 from fastapi import HTTPException
 
@@ -37,3 +38,18 @@ async def authenticate_user(username: str, password: str):
 
     jwt = create_jwt_token(account.username, account_type)
     return jwt
+
+
+async def register_logout(account):
+    # TODO: check if already exists record
+    logouts = repository.get_logout_by_account_id(account.id)
+    if len(logouts) > 1:
+        raise Exception('this should not happen')
+
+    is_present = True if len(logouts) == 1 else False
+
+    if is_present:
+        res = repository.update_logout_date(account.id)
+    else:
+        res = repository.create_logout(account.id)
+    return res

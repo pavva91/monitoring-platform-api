@@ -1,17 +1,14 @@
+from datetime import datetime, timezone
 import casbin
 from fastapi import HTTPException, Request, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 
-from .models import ItemsDAO, UsersDAO
 from . import authentication
 from . import schemas
 from account import repository
 from account import models
 from jwt.exceptions import InvalidTokenError
 
-
-items_dao = ItemsDAO()
-users_dao = UsersDAO()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -30,15 +27,30 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
             raise credentials_exception
         username = jwt.get("sub")
         role = jwt.get("role")
-        if username is None or role is None:
+        issued_at_timestamp = jwt.get("iat")
+        if username is None or role is None or issued_at_timestamp is None:
             raise credentials_exception
         token_data = schemas.TokenData(username=username, role=role)
+
+        user = repository.get_account_by_username(
+            username_in=token_data.username)
+        if user is None:
+            raise credentials_exception
+
+        logouts = repository.get_logout_by_account_id(user.id)
+        if len(logouts) == 1:
+            last_logout_on_timestamp = logouts[0].last_logout_on.timestamp()
+            # NOTE: always normalize to utc
+            issued_at = datetime.fromtimestamp(
+                issued_at_timestamp, timezone.utc)
+            last_logout_on = datetime.fromtimestamp(
+                last_logout_on_timestamp, timezone.utc)
+            if last_logout_on > issued_at:
+                raise credentials_exception
+
     except InvalidTokenError:
         raise credentials_exception
 
-    user = repository.get_account_by_username(username_in=token_data.username)
-    if user is None:
-        raise credentials_exception
     return user
 
 

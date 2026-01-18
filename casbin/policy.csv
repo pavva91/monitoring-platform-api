@@ -1,2 +1,4 @@
 p, admin, .*/conflictdata, DELETE
+p, admin, .*/logout, POST
 p, reader, .*/conflictdata/{admin1}/userfeedback, POST
+p, reader, .*/logout, POST
