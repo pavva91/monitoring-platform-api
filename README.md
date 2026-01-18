@@ -149,7 +149,8 @@ Top 20 countries ordered by average risk;
 SELECT country, AVG(score)
 FROM conflict
 GROUP BY country
-ORDER BY AVG(score) DESC;
+ORDER BY AVG(score) DESC
+LIMIT 20;
 ```
 
 Sum of total events in a country:
