@@ -13,8 +13,7 @@
 9. POST /conflictdata/:admin1/userfeedback (DONE)
 10. DELETE /conflictdata (DONE)
 11. Implement authorization (with casbin) (DONE)
-12. Complete docs (DOING)
-13. Docker for prod (DOING)
+12. Complete docs (DONE)
 
 # Future developments I would do
 
