@@ -96,7 +96,15 @@ docker compose up
 will recreate 'conflict' empty db
 then re-init the schema and re-import the .csv
 
-## SQL
+## Example SQL
+
+Enter psql:
+
+```bash
+PGPASSWORD=your-password psql -h 127.0.0.1 -p 5432 -U postgres conflict
+```
+
+Then you can run sql e.g.:
 
 
 ```sql
