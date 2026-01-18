@@ -35,6 +35,12 @@ async def get_average_risk_score_by_country(country: str):
     select avg(score) from conflict where country=%s;
     """
     res = await service.get_average_risk_score(country)
+    if res.count(None) != 0:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Could not find the country related record",
+        )
+
     return res
 
 

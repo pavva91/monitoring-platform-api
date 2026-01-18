@@ -19,6 +19,3 @@ class ConflictResponse(models.ConflictBase):
     population: int | None
     events: int
     score: int
-
-    class Config:
-        from_attributes = True
