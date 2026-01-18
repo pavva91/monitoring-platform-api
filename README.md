@@ -88,6 +88,16 @@ You will see the Swagger docs on:
 You will see the Alternative API docs on:
     - [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
+The preloaded 'admin' user credentials are:
+- username: boss
+- password: asdf
+
+You can use the OpenAPI UI:
+- [http://localhost:8000/docs](http://localhost:8000/docs)
+
+or the postman collection:
+- [./docs/api_postman_collection.json](./docs/api_postman_collection.json)
+
 ### Reset DB
 
 On dev I usually setup docker in a way that the db is dropped when running:
