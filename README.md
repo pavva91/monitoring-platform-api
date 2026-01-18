@@ -79,7 +79,7 @@ You will see the Alternative API docs on:
 
 ### Reset DB
 
-On dev I usually setup that the db is dropped when running:
+On dev I usually setup docker in a way that the db is dropped when running:
 
 ```bash
 cd docker
