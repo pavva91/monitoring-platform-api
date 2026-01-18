@@ -210,7 +210,7 @@ WHERE events_per_person IS NOT NULL;
 Inspect the query plan for a query, for example, analyze the last one, with the CTE:
 
 ```sql
-EXPLAIN
+EXPLAIN (ANALYZE, BUFFERS)
 WITH group_events_population_ratio AS (
     SELECT
         country,
