@@ -21,3 +21,6 @@
 
 - read-through with a TTL for endpoint results that don't change frequently, in this way the db is queried on read only at the cache-miss. (e.g. if the original data is bulk updated once every day, I would do a TTL that follows this bulk update's frequency, to give the consumer of the dataset performance without having stale date on the cache)
 - write-behind (write first on the cache and then sync on the db) on the logout table (POST /logout), to limit the calls to the db, especially when checking if the JWT is still valid, because the endpoints that need authentication do this check every time and they will go to redis first. (e.g.: POST /conflictdata/:admin1/userfeedback )
+
+2. Unit tests, at least on the security core business logic (e.g. authentication & JWT-invalidation).
+3. Development of more complex queries and analysis.
