@@ -18,6 +18,18 @@ pip install -r requirements.txt
 
 From root:
 
+Initialize .env for server
+
+```bash
+cp example.env .env
+```
+
+Initialize .env for docker:
+
+```bash
+cp ./docker/example.env ./docker/.env
+```
+
 Spin-up postgres:
 
 ```bash
