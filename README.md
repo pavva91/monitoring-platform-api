@@ -105,10 +105,10 @@ select avg(score) from conflict where country='Algeria';
 
 
 ```sql
-drop database conflict;
+select * from conflict;
 ```
 
 
 ```sql
-select * from conflict;
+drop database conflict;
 ```
