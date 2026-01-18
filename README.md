@@ -107,17 +107,21 @@ PGPASSWORD=your-password psql -h 127.0.0.1 -p 5432 -U postgres conflict
 Then you can run sql e.g.:
 
 ```sql
-select avg(score) from conflict where country='Algeria';
+SELECT AVG(score) FROM conflict WHERE country='Algeria';
 ```
 
 ```sql
-select * from conflict where lower(country)=lower('ALGERIA');
+SELECT * FROM conflict WHERE LOWER(country)=LOWER('ALGERIA');
 ```
 
 ```sql
-select * from conflict;
+SELECT AVG(score) FROM conflict WHERE LOWER(country)=LOWER('ALGERIA');
 ```
 
 ```sql
-drop database conflict;
+SELECT * FROM conflict;
+```
+
+```sql
+DROP DATABASE conflict;
 ```
