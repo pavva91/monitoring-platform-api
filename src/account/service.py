@@ -11,6 +11,10 @@ from . import repository
 
 
 async def create_user(session: Session, creds: schema.AccountCredentialsRequest):
+    account = repository.get_account_by_username(creds.username)
+    if account is not None:
+        return None
+
     acc = models.AccountCreate(
         username=creds.username, password_hash=utils.hash_password(creds.password))
     db_account = repository.create_account(session, acc)
