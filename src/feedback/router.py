@@ -10,7 +10,7 @@ feedback_router = APIRouter()
 
 
 @feedback_router.post("/conflictdata/{admin1}/userfeedback", response_model=schemas.FeedbackResponse)
-async def send_feedback(
+async def reader_user_send_feedback(
     admin1: str,
     feedback: schemas.FeedbackInput,
     country: str = Query(default=None),

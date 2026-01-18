@@ -16,7 +16,7 @@ conflict_router = APIRouter()
 
 
 @conflict_router.get("/conflictdata", response_model=list[schemas.ConflictResponse])
-async def list_all(
+async def list_all_conflict_areas_dataset_with_pagination(
         page: int = Query(default=1, ge=1),
         size: int = Query(default=20, ge=10, le=100),
         countries: List[str] = Query(default=[]),
@@ -30,7 +30,7 @@ async def get_country_details(country, session: SessionDep):
 
 
 @conflict_router.get("/conflictdata/{country}/riskscore", response_model=schemas.AverageConflictScoreResponse)
-async def get_average_risk_score(country: str):
+async def get_average_risk_score_by_country(country: str):
     """
     select avg(score) from conflict where country=%s;
     """
@@ -39,7 +39,7 @@ async def get_average_risk_score(country: str):
 
 
 @conflict_router.delete("/conflictdata", response_model=None)
-async def bulk_delete_conflicts(
+async def admin_user_single_delete_by_admin1_or_bulk_delete_by_country_conflicts(
         admin1: str = Query(default=None),
         country: str = Query(default=None),
         _: am.Account = Depends(get_current_user_authorization)

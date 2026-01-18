@@ -20,18 +20,18 @@ SessionDep = Annotated[Session, Depends(get_session)]
 
 
 @account_router.post("/register", response_model=schema.AccountResponse)
-async def register(creds: schema.AccountCredentialsRequest, session: SessionDep):
+async def create_new_reader_user(creds: schema.AccountCredentialsRequest, session: SessionDep):
     return await service.create_user(session, creds)
 
 
 @account_router.post("/login", response_model=None)
-async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> schemas.Token:
+async def login_user(form_data: OAuth2PasswordRequestForm = Depends()) -> schemas.Token:
     jwt = await service.authenticate_user(form_data.username, form_data.password)
     return jwt
 
 
 @account_router.post("/logout", response_model=None)
-async def logout(
+async def logout_user(
     curr_user: am.Account = Depends(get_current_user_authorization)
 ) -> schemas.Token:
     res = await service.register_logout(curr_user)
