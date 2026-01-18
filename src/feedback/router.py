@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Query, Depends, status
+from pydantic import BaseModel
 
 from . import schemas
 from . import service
@@ -9,7 +10,15 @@ from auth.authorization import get_current_user_authorization
 feedback_router = APIRouter()
 
 
-@feedback_router.post("/conflictdata/{admin1}/userfeedback", response_model=schemas.FeedbackResponse)
+class HTTPErrorNotAuthorized(BaseModel):
+    detail: str = 'Method not authorized for this user'
+    pass
+
+
+@feedback_router.post("/conflictdata/{admin1}/userfeedback", response_model=schemas.FeedbackResponse, responses={
+    status.HTTP_401_UNAUTHORIZED: {"model": HTTPErrorNotAuthorized,
+                                   "description": "Correctly logged in user but not authorized role (e.g. admin)"}
+})
 async def reader_user_send_feedback(
     admin1: str,
     feedback: schemas.FeedbackInput,
