@@ -6,7 +6,7 @@ from . import models
 class AverageConflictScoreResponse(BaseModel):
     average: Decimal
 
-    @field_validator('average')
+    @field_validator("average")
     @classmethod
     def round_average(cls, v: Decimal) -> Decimal:
         return round(v, 2)

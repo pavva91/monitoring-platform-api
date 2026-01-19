@@ -32,8 +32,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
             raise credentials_exception
         token_data = schemas.TokenData(username=username, role=role)
 
-        user = repository.get_account_by_username(
-            username_in=token_data.username)
+        user = repository.get_account_by_username(username_in=token_data.username)
         if user is None:
             raise credentials_exception
 
@@ -41,10 +40,10 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         if len(logouts) == 1:
             last_logout_on_timestamp = logouts[0].last_logout_on.timestamp()
             # NOTE: always normalize to utc
-            issued_at = datetime.fromtimestamp(
-                issued_at_timestamp, timezone.utc)
+            issued_at = datetime.fromtimestamp(issued_at_timestamp, timezone.utc)
             last_logout_on = datetime.fromtimestamp(
-                last_logout_on_timestamp, timezone.utc)
+                last_logout_on_timestamp, timezone.utc
+            )
             if last_logout_on > issued_at:
                 raise credentials_exception
 
@@ -55,14 +54,16 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 
 # NOTE: casbin authorization middleware
-async def get_current_user_authorization(req: Request, curr_user: models.Account = Depends(get_current_user)):
+async def get_current_user_authorization(
+    req: Request, curr_user: models.Account = Depends(get_current_user)
+):
     e = casbin.Enforcer("casbin/model.conf", "casbin/policy.csv")
-    user_role = ''
+    user_role = ""
     match curr_user.account_type_id:
         case 1:
-            user_role = 'admin'
+            user_role = "admin"
         case 2:
-            user_role = 'reader'
+            user_role = "reader"
         case _:
             raise credentials_exception
 
@@ -72,5 +73,6 @@ async def get_current_user_authorization(req: Request, curr_user: models.Account
     if not (e.enforce(sub, obj, act)):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Method not authorized for this user")
+            detail="Method not authorized for this user",
+        )
     return curr_user

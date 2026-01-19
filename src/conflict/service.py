@@ -6,7 +6,9 @@ async def list_conflicts(page: int, size: int, countries):
     if len(countries) == 0:
         return repository.list_conflicts(skip=skip, size=size)
 
-    return repository.list_conflicts_in_countries(skip=skip, size=size, countries=countries)
+    return repository.list_conflicts_in_countries(
+        skip=skip, size=size, countries=countries
+    )
 
 
 async def get_country_details(country, session):
@@ -20,8 +22,7 @@ async def get_average_risk_score(country):
 
 async def delete_records(admin1, country):
     if country is not None and admin1 is not None:
-        repository.delete_conflicts_by_admin1_and_country(
-            admin1, country)
+        repository.delete_conflicts_by_admin1_and_country(admin1, country)
         return
 
     if country is None:

@@ -1,5 +1,6 @@
 from sqlmodel import Field, SQLModel
 
+
 class FeedbackBase(SQLModel):
     text: str = Field(index=True)
 
