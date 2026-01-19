@@ -69,7 +69,7 @@ select * from conflict;
 ### Run the server
 
 ```bash
-fastapi dev src/main.py
+fastapi dev --port 8000 src/main.py
 ```
 NOTE: The 'dev' mode includes hot-reload
 
@@ -354,8 +354,25 @@ curl --request DELETE \
 ```
 
 Delete by country:
+
 ```bash
 curl --request DELETE \
   --url 'http://localhost:8000/api/v1/conflictdata?country=Algeria' \
   --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJleGFtcGxlLm9yZyIsInN1YiI6ImJvc3MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Njg3NzkwMTkuMzM1NzAxLCJleHAiOjE3Njg4NjU0MTkuMzM1NzAxfQ.IqiKzeWzlWhewthkXYgjeLmKNFD54cynOju_BEywqAU'
+```
+
+## Pyenv (venv)
+
+From project root:
+
+```bash
+pyenv install 3.14.2
+```
+
+```bash
+pyenv virutalenv 3.14.2 your-virtual-env-project-3.14.2
+```
+
+```bash
+pyenv local your-virtual-env-project-3.14.2
 ```
