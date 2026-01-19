@@ -338,7 +338,7 @@ curl --request GET \
   --url http://localhost:8000/api/v1/conflictdata/spain/riskscore
 ```
 
-### GET /conflictdata/{country}/riskscore
+### GET /conflictdata/{admin1}/userfeedback
 
 too short feedback:
 
@@ -363,7 +363,7 @@ curl --request POST \
 }'
 ```
 
-### GET /conflictdata/{country}/riskscore
+### DELETE /conflictdata
 
 Delete by admin1:
 ```bash
