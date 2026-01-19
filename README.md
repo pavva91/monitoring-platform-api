@@ -108,11 +108,14 @@ The preloaded 'admin' user credentials are:
 - username: boss
 - password: asdf
 
-You can use the OpenAPI UI:
+You can use the interactive OpenAPI UI:
 - [http://localhost:8000/docs](http://localhost:8000/docs)
 
-or the postman collection:
+or import the postman collection:
 - [./docs/api_postman_collection.json](./docs/api_postman_collection.json)
+
+or user curl directly:
+- [Go to curl commands](#curl-commands)
 
 ### Reset DB
 
