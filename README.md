@@ -114,7 +114,7 @@ You can use the interactive OpenAPI UI:
 or import the postman collection:
 - [./docs/api_postman_collection.json](./docs/api_postman_collection.json)
 
-or user curl directly:
+or use curl directly:
 - [Go to curl commands](#curl-commands)
 
 ### Reset DB
