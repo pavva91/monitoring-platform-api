@@ -253,3 +253,109 @@ SELECT * FROM conflict;
 ```sql
 DROP DATABASE conflict;
 ```
+
+## curl commands
+
+### POST /register
+
+Create new 'reader' user:
+
+```bash
+curl --request POST \
+  --url http://localhost:8000/api/v1/register \
+  --header 'content-type: application/json' \
+  --data '{
+  "username":"alice",
+  "password":"secret"
+}'
+```
+
+### POST /login
+
+1. login with admin role user
+
+```bash
+curl --request POST \
+  --url http://localhost:8000/api/v1/login \
+  --header 'content-type: application/x-www-form-urlencoded' \
+  --data 'username=boss&password=asdf'
+```
+
+2. login with normal "reader" role user
+
+```bash
+curl --request POST \
+  --url http://localhost:8000/api/v1/login \
+  --header 'content-type: application/x-www-form-urlencoded' \
+  --data 'username=alice&password=secret'
+```
+
+### POST /logout
+
+```bash
+curl --request POST \
+  --url http://localhost:8000/api/v1/logout \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJleGFtcGxlLm9yZyIsInN1YiI6ImFsaWNlIiwicm9sZSI6InJlYWRlciIsImlhdCI6MTc2ODc3NzI0OC4xMjg2NCwiZXhwIjoxNzY4ODYzNjQ4LjEyODY0fQ.z-ypdyn8n-UUdoCDzS_WxTKA3JsUT5QStOOLDDleu3I'
+```
+
+### GET /conflictdata
+
+```bash
+curl --request GET \
+  --url 'http://localhost:8000/api/v1/conflictdata?page=1&size=50&countries=italy&countries=germany' | jq -r .
+```
+
+### GET /conflictdata/{country}
+
+```bash
+curl --request GET \
+  --url http://localhost:8000/api/v1/conflictdata/spain
+```
+
+### GET /conflictdata/{country}/riskscore
+
+```bash
+curl --request GET \
+  --url http://localhost:8000/api/v1/conflictdata/spain/riskscore
+```
+
+### GET /conflictdata/{country}/riskscore
+
+too short feedback:
+
+```bash
+curl --request POST \
+  --url http://localhost:8000/api/v1/conflictdata/marche/userfeedback \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJleGFtcGxlLm9yZyIsInN1YiI6ImFsaWNlIiwicm9sZSI6InJlYWRlciIsImlhdCI6MTc2ODc3NzcyNS4wMzcwNzEsImV4cCI6MTc2ODg2NDEyNS4wMzcwNzF9.QC6dTEpZPP1kzT7BmwHgwE9EsP-sIsHYfJnq6pqjTqs' \
+  --header 'content-type: application/json' \
+  --data '{
+  "text":"short"
+}'
+```
+
+A valid feedback:
+```bash
+curl --request POST \
+  --url http://localhost:8000/api/v1/conflictdata/marche/userfeedback \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJleGFtcGxlLm9yZyIsInN1YiI6ImFsaWNlIiwicm9sZSI6InJlYWRlciIsImlhdCI6MTc2ODc3NzcyNS4wMzcwNzEsImV4cCI6MTc2ODg2NDEyNS4wMzcwNzF9.QC6dTEpZPP1kzT7BmwHgwE9EsP-sIsHYfJnq6pqjTqs' \
+  --header 'content-type: application/json' \
+  --data '{
+  "text":"a valid feedback to marche"
+}'
+```
+
+### GET /conflictdata/{country}/riskscore
+
+Delete by admin1:
+```bash
+curl --request DELETE \
+  --url 'http://localhost:8000/api/v1/conflictdata?admin1=Sardegna' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJleGFtcGxlLm9yZyIsInN1YiI6ImJvc3MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Njg3NzkwMTkuMzM1NzAxLCJleHAiOjE3Njg4NjU0MTkuMzM1NzAxfQ.IqiKzeWzlWhewthkXYgjeLmKNFD54cynOju_BEywqAU'
+```
+
+Delete by country:
+```bash
+curl --request DELETE \
+  --url 'http://localhost:8000/api/v1/conflictdata?country=Algeria' \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJleGFtcGxlLm9yZyIsInN1YiI6ImJvc3MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Njg3NzkwMTkuMzM1NzAxLCJleHAiOjE3Njg4NjU0MTkuMzM1NzAxfQ.IqiKzeWzlWhewthkXYgjeLmKNFD54cynOju_BEywqAU'
+```
