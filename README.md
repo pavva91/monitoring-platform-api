@@ -23,6 +23,22 @@ Initialize .env for server
 cp example.env .env
 ```
 
+**_NOTE_**: create jwt secret e.g.:
+
+```bash
+python
+```
+
+```python
+import secrets
+secrets.token_hex(32)
+```
+
+copy this value into .env (JWT_SECRET)
+
+**_NOTE_**: e.g. JWT_ALGORITHM=HS256
+
+
 Initialize .env for docker:
 
 ```bash
@@ -71,7 +87,7 @@ select * from conflict;
 ```bash
 fastapi dev --port 8000 src/main.py
 ```
-NOTE: The 'dev' mode includes hot-reload
+**_NOTE_**: The 'dev' mode includes hot-reload
 
 To run without hot-reload:
 
