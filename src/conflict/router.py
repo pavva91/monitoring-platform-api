@@ -1,6 +1,5 @@
 from typing import Annotated, List
 from fastapi import APIRouter, Depends, Query, status, HTTPException
-from sqlalchemy.orm import Session
 
 from conflict import service
 from db import get_session
