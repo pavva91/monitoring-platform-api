@@ -379,6 +379,8 @@ curl --request DELETE \
 
 ## Pyenv (venv)
 
+I developed using the latest python (3.14.2), but it also compatible with python 3.10
+
 From project root:
 
 ```bash
