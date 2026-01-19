@@ -96,13 +96,13 @@ fastapi run src/main.py
 ```
 
 You will see the server on:
-    - [http://localhost:8000](http://localhost:8000)
+- [http://localhost:8000](http://localhost:8000)
 
 You will see the Swagger docs on:
-    - [http://localhost:8000/docs](http://localhost:8000/docs)
+- [http://localhost:8000/docs](http://localhost:8000/docs)
 
 You will see the Alternative API docs on:
-    - [http://localhost:8000/redoc](http://localhost:8000/redoc)
+- [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 The preloaded 'admin' user credentials are:
 - username: boss
